@@ -219,7 +219,7 @@ deseqExprMatrix = DESeqExpr
 (
 	geneCounts  = bamCounts,
     counts      = false,
-    maxNA       = 0.9,
+    maxNA       = 1.0,
     normalized  = true
 )
 
@@ -231,21 +231,25 @@ include "/mnt/projects/schwann/anduril/includes/qc.and"
 
 qcReport  = getQCReport
 (
-	samples                = samples,
-	alignedBAMs            = alignedBams,
-    gtf                    = gtf,
-    countMatrix            = htseqExprMatrix.countArray["all"],
-    force expr             = deseqExprMatrix.expr,
-    force groups           = sampleGroupsUnique,
-    force inputSamples     = inputSamples,
-    readStatsYMax          = 50,
-    readStatsSamplesPerRow = 13,
-    cexClusterHeatmap      = 0.7,
-    cexMDS                 = 0.5,
-    cexGeneBodyCoverage    = 0.6,
-    gcBiasYMax             = 4,
-    gcBiasYMin             = -3,
-    sampleAnnotationColumns = "normal/tumor,Tissue/cells,cell type"    
+	samples                       = samples,
+	alignedBAMs                   = alignedBams,
+    gtf                           = gtf,
+    countMatrix                   = htseqExprMatrix.countArray["all"],
+    force expr                    = deseqExprMatrix.expr,
+    force groups                  = sampleGroupsUnique,
+    force inputSamples            = inputSamples,
+    readStatsYMax                 = 50,
+    readStatsSamplesPerRow        = 13,
+    cexClusterHeatmap             = 0.7,
+    cexMDS                        = 0.5,
+    cexGeneBodyCoverage           = 0.6,
+    gcBiasYMax                    = 4,
+    gcBiasYMin                    = -3,
+    sampleAnnotationColumns       = "normal/tumor,Tissue/cells,cell type",
+    clusterHeatmapLegendXOffset   = 0.05,
+    clusterHeatmapLegendYOffset   = 0.18,
+    clusterHeatmapMargins         = "5,7",
+    clusterHeatmapMinSumReads     = 2    
 )
 
 //------------------------------------------------------------------------------------------------
