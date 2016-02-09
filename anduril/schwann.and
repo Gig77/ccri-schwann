@@ -13,6 +13,7 @@ runNetwork   = true
 runVenn      = false
 runPGE       = true
 runGO        = true
+runKegg      = true
 
 maxNA    	 = 0.90    // fraction of samples allowed to have NA values before gene is discarded
 pGOEnrich    = 0.01    // minimum p-value to call a GO term enriched 
@@ -103,7 +104,7 @@ sampleGroups = TableQuery
 	query  = '''SELECT * FROM table1 ORDER BY "ID"'''
 )
 
-sampleGroupsUnique = CSVFilter(csv=sampleGroups, regexp="ID=P|NB6|SC|FB|G|S|Other")
+sampleGroupsUnique = CSVFilter(csv=sampleGroups, regexp="ID=P|NB6|SC|FB|G|S|Other|MNC")
 
 //------------------------------------------------------------------------------------------------
 //--- COMPARISONS
@@ -240,7 +241,7 @@ qcReport  = getQCReport
     force inputSamples            = inputSamples,
     readStatsYMax                 = 50,
     readStatsSamplesPerRow        = 13,
-    cexClusterHeatmap             = 0.7,
+    cexClusterHeatmap             = 0.6,
     cexMDS                        = 0.5,
     cexGeneBodyCoverage           = 0.6,
     gcBiasYMax                    = 4,
@@ -465,6 +466,24 @@ for ID, comparison : comparisons
 		@enabled     = runGO
 	)
 
+	//--- KEGG PATHWAYS -------------------------------------------------------------------------------//
+
+	include "/mnt/projects/schwann/anduril/includes/keggReport.and"
+	kegg = keggReport
+	(
+		degsCalled   = degCalledLst[ID],
+		degsAll      = degAllLst[ID],
+		geneNames    = geneNames,
+		ID           = ID,
+		sectionTitle = "KEGG pathways enriched between " + comparison.caseG + " and " + comparison.controlG,
+		sectionType  = "subsubsection",
+		comparison   = comparison,
+		topNdiagrams = 10,
+		fdrCutoff    = 0.01,
+		@name        = "kegg" + std.quote(ID, type="Anduril"),
+		@enabled     = runKegg
+	)
+
 	//--- GENE INTERACTION NETWORK --------------------------------------------------------------------//
 	
 	statusTable = TableQuery
@@ -552,6 +571,7 @@ for ID, comparison : comparisons
 			degBoxplotDn, 
 			exprHeatmap, 
 			goEnrichment,
+			kegg,
 			network.report
 		},
 		sectionTitle = std.quote(ID, type="Latex"), 
