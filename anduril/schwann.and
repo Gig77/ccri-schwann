@@ -104,7 +104,7 @@ sampleGroups = TableQuery
 	query  = '''SELECT * FROM table1 ORDER BY "ID"'''
 )
 
-sampleGroupsUnique = CSVFilter(csv=sampleGroups, regexp="ID=P|NB6|SC|FB|G|S|Other|MNC")
+sampleGroupsUnique = CSVFilter(csv=sampleGroups, regexp="ID=P|NB6|SC|FB|G|S|Other|MNC|TUMblack|TUMorangemna|TUMorangenomna")
 
 //------------------------------------------------------------------------------------------------
 //--- COMPARISONS
@@ -241,8 +241,8 @@ qcReport  = getQCReport
     force inputSamples            = inputSamples,
     readStatsYMax                 = 50,
     readStatsSamplesPerRow        = 13,
-    cexClusterHeatmap             = 0.6,
-    cexMDS                        = 0.5,
+    cexClusterHeatmap             = 0.5,
+    cexMDS                        = 0.4,
     cexGeneBodyCoverage           = 0.6,
     gcBiasYMax                    = 4,
     gcBiasYMin                    = -3,
@@ -250,7 +250,8 @@ qcReport  = getQCReport
     clusterHeatmapLegendXOffset   = 0.05,
     clusterHeatmapLegendYOffset   = 0.18,
     clusterHeatmapMargins         = "5,7",
-    clusterHeatmapMinSumReads     = 2    
+    clusterHeatmapMinSumReads     = 2,
+    boxplotCexAxis                = 0.7    
 )
 
 //------------------------------------------------------------------------------------------------
